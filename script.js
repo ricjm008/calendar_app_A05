@@ -19,35 +19,33 @@ const $event6 = $("#event5");
 const $event7 = $("#event6");
 const $event8 = $("#event7");
 let events = {
-    0: $event1.value.trim(),
-    1: $event2.value.trim(),
-    2: $event3.value.trim(),
-    3: $event4.value.trim(),
-    4: $event5.value.trim(),
-    5: $event6.value.trim(),
-    6: $event7.value.trim(),
-    7: $event8.value.trim()
+    0: $event1.value,
+    1: $event2.value,
+    2: $event3.value,
+    3: $event4.value,
+    4: $event5.value,
+    5: $event6.value,
+    6: $event7.value,
+    7: $event8.value
 };
 const today = dayjs();
 $currentDay.text(`Today is ${today.format("dddd, D MMMM h:mm A")}`)
+// This for loop creates the 8 time blocks
 for (var i = 0; i < timeBlocks.length; i++) {
-    // Create a new `<div>` for each ability and its text content
+    // Uses jQuery to create the html
     const $timeBlock = $(`
     <div class="time-block row">
-        <h4 class="hour col">${timeBlocks[i]}</h4>
-        <form class="col-6 description">
+        <h4 class="hour col-1">${timeBlocks[i]}</h4>
+        <form class="col-10 description">
             <label class="description" for="timeBlock${i}">Event: </label>
             <input type="text" class="description" id="event${i}" name="timeBlock${i}"/>
         </form>
         <div id="eventsLogged${i}"></div>
-        <button class="saveBtn col" id="submit"><i>Save</i></button>
+        <button class="saveBtn col-1" id="submit"><i>Save</i></button>
     </div>
     `);
-    events = JSON.parse(localStorage.getItem("events"));
-    const $eventsLogged = $(`#eventsLogged${i}`);
-    if (events == !null) {
-        $eventsLogged = events;
-    }
+    
+    // Defines the relative state of each block
     $dayPlanner.append($timeBlock);
     if (today.format("H") > i + 9) {
         $timeBlock.addClass("past")
@@ -58,7 +56,15 @@ for (var i = 0; i < timeBlocks.length; i++) {
     }
     
 };
+// To save new events in each time block
 $(".saveBtn").on("click", function () {
-        localStorage.setItem("events", JSON.stringify(events));
+
+    localStorage.setItem("events", JSON.stringify(events));
 });
 
+// Passes in the events in local storage
+    events = JSON.parse(localStorage.getItem("events"));
+    const $eventsLogged = $(`#eventsLogged${i}`);
+    if (events == !null) {
+        $eventsLogged = events;
+    }

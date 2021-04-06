@@ -57,14 +57,17 @@ for (var i = 0; i < timeBlocks.length; i++) {
     
 };
 // To save new events in each time block
-$(".saveBtn").on("click", function () {
-
+$(".saveBtn").on("click", function (event) {
+    event.preventDefault();
+    newEventPlace = event.currentTarget;
+    newEvent = event.currentTarget.form.value;
+    event.currentTarget.div.text(newEvent);
+    events[newEventPlace] = newEvent;
     localStorage.setItem("events", JSON.stringify(events));
 });
 
 // Passes in the events in local storage
     events = JSON.parse(localStorage.getItem("events"));
-    const $eventsLogged = $(`#eventsLogged${i}`);
     if (events == !null) {
         $eventsLogged = events;
     }
